@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-[600px] flex items-center pt-20 md:pt-32 pb-20 overflow-hidden">
+    <!-- Neon Background Rings -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-primary/20 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+    <div class="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-brand-secondary/20 rounded-full blur-[80px] pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div class="text-center flex flex-col items-center gap-10">
+            
+            <!-- Hero Content -->
+            <div class="space-y-8 max-w-3xl mx-auto">
+                <div class="inline-flex items-center px-3 py-1 rounded-full border border-brand-primary/30 bg-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-widest mb-4">
+                    <span class="flex h-2 w-2 relative mr-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+                    </span>
+                    ATSify Engine v2.0 Live
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight font-inter">
+                    AI Resume Analysis That <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-accent to-brand-secondary">Gets You Hired Faster</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
+                    Stop guessing what the ATS algorithm wants. Our advanced LLMs scan your resume, instantly detect missing keywords, and provide actionable feedback to guarantee your match.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 justify-center">
+                    <a href="{% url 'register' %}" class="relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary focus:ring-offset-brand-bg w-full sm:w-auto">
+                        Optimize Resume Now <i data-lucide="zap" class="w-5 h-5 ml-2"></i>
+                    </a>
+                    <a href="#features" class="relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-300 bg-brand-surface/50 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/30 w-full sm:w-auto backdrop-blur-sm">
+                        View Demo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dashboard Preview -->
+            <div class="w-full max-w-5xl mx-auto mt-12 relative group perspective-1000">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div class="relative glass-card rounded-2xl p-2 border border-white/10 shadow-2xl transform transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+                    <div class="bg-[#0A0F24] rounded-xl overflow-hidden flex flex-col md:flex-row h-64 md:h-96 items-center justify-center relative">
+                        <!-- Simulated UI -->
+                        <div class="absolute top-4 left-4 flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
+                        
+                        <div class="flex flex-col items-center justify-center space-y-6 w-full px-8">
+                            <div class="relative w-32 h-32 flex items-center justify-center">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"></circle>
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-dasharray="282.74" stroke-dashoffset="22" class="animate-[pulse_3s_ease-in-out_infinite]"></circle>
+                                    <defs>
+                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#7C3AED"></stop>
+                                            <stop offset="100%" stop-color="#10B981"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div class="absolute flex flex-col items-center justify-center">
+                                    <span class="text-3xl font-bold text-white font-mono">92<span class="text-lg">%</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3 flex-wrap justify-center">
+                                <span class="px-4 py-1.5 glass-card text-brand-primary text-sm font-semibold rounded-full border border-brand-primary/30 shadow-[0_0_10px_rgba(124,58,237,0.2)]">Docker</span>
+                                <span class="px-4 py-1.5 glass-card text-brand-secondary text-sm font-semibold rounded-full border border-brand-secondary/30 shadow-[0_0_10px_rgba(37,99,235,0.2)]">Microservices</span>
+                                <span class="px-4 py-1.5 glass-card text-brand-accent text-sm font-semibold rounded-full border border-brand-accent/30 shadow-[0_0_10px_rgba(168,85,247,0.2)]">AWS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-24 relative overflow-hidden border-t border-white/5 bg-[#050816]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Precision Intelligence</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Our advanced models break down job descriptions and evaluate your resume with recruiter-level accuracy.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all">
+                    <i data-lucide="zap" class="w-7 h-7 text-brand-primary"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Instant LLaMA 3 Analysis</h3>
+                <p class="text-slate-400 leading-relaxed">Get immediate, hyper-accurate feedback on your resume using the lightning-fast Groq API and advanced LLaMA 3 models.</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-xl bg-brand-secondary/10 border border-brand-secondary/20 flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all">
+                    <i data-lucide="target" class="w-7 h-7 text-brand-secondary"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Keyword Gap Detection</h3>
+                <p class="text-slate-400 leading-relaxed">Discover exactly which crucial keywords and technical skills your resume is missing for the specific job description.</p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all">
+                    <i data-lucide="cpu" class="w-7 h-7 text-brand-accent"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Actionable AI Suggestions</h3>
+                <p class="text-slate-400 leading-relaxed">Receive smart, AI-driven tips on how to rephrase and improve your bullet points to maximize your ATS match score.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

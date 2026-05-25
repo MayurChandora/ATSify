@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Analyse Resume - ATSify{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- Ambient Background Glow -->
+    <div class="absolute top-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-primary/20 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+    <div class="glass-card rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+        <!-- Decorative subtle grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+
+        <div class="relative z-10">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-primary/10 border border-brand-primary/30 mb-6 shadow-[0_0_20px_rgba(124,58,237,0.2)]">
+                    <i data-lucide="scan" class="w-8 h-8 text-brand-primary"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-white font-inter tracking-tight">Initiate ATS Scan</h1>
+                <p class="text-slate-400 mt-3 text-lg">Upload your payload and target parameters to begin AI analysis.</p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" id="analyse-form" class="space-y-8">
+                {% csrf_token %}
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-3 uppercase tracking-wider">Payload (PDF only)</label>
+                    <div class="relative group mt-1 flex justify-center px-6 pt-12 pb-12 border-2 border-slate-700 border-dashed rounded-2xl bg-slate-900/50 hover:bg-slate-800/50 hover:border-brand-primary transition-all duration-300 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] cursor-pointer" id="drop-zone">
+                        <div class="space-y-4 text-center">
+                            <div class="mx-auto h-16 w-16 bg-slate-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 group-hover:bg-brand-primary/20">
+                                <i data-lucide="upload-cloud" class="h-8 w-8 text-slate-400 group-hover:text-brand-primary transition-colors"></i>
+                            </div>
+                            <div class="flex text-sm text-slate-400 justify-center items-center">
+                                <label for="resume_file" class="relative cursor-pointer rounded-md font-semibold text-brand-primary hover:text-brand-accent focus-within:outline-none">
+                                    <span>Browse files</span>
+                                    <input id="resume_file" name="resume_file" type="file" accept=".pdf" class="sr-only" required>
+                                </label>
+                                <p class="pl-2">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-slate-500 font-mono" id="file-name-display">Max size: 10MB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="job_description" class="block text-sm font-medium text-slate-300 mb-3 uppercase tracking-wider">Target Parameters (Job Description)</label>
+                    <div class="relative">
+                        <div class="absolute top-3 left-3">
+                            <i data-lucide="file-code-2" class="w-5 h-5 text-slate-500"></i>
+                        </div>
+                        <textarea id="job_description" name="job_description" rows="6" class="w-full pl-10 pr-4 py-3 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 font-mono text-sm" placeholder="Paste the job description here..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" id="submit-btn" class="w-full relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary focus:ring-offset-brand-bg group overflow-hidden">
+                        <span class="relative z-10 flex items-center" id="btn-text">
+                            Initialize Analysis <i data-lucide="cpu" class="w-5 h-5 ml-2 group-hover:rotate-12 transition-transform"></i>
+                        </span>
+                        <span id="loading-spinner" class="hidden relative z-10 flex items-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing Payload...
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const fileInput = document.getElementById('resume_file');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        const dropZone = document.getElementById('drop-zone');
+        const form = document.getElementById('analyse-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = "Selected: " + e.target.files[0].name;
+                fileNameDisplay.classList.add('text-brand-success');
+                fileNameDisplay.classList.remove('text-slate-500');
+                dropZone.classList.add('border-brand-primary', 'bg-brand-primary/5');
+            }
+        });
+
+        // Form Submit Loading State
+        form.addEventListener('submit', function() {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+            btnText.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+        });
+    });
+</script>
+{% endblock %}

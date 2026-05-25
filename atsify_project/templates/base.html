@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ATSify - Futuristic AI Resume Analyser{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#050816',
+                            surface: '#0F172A',
+                            card: 'rgba(15, 23, 42, 0.7)',
+                            primary: '#7C3AED',
+                            secondary: '#2563EB',
+                            accent: '#A855F7',
+                            success: '#10B981',
+                            warning: '#F59E0B',
+                            error: '#EF4444',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.15), rgba(5, 8, 22, 1))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-brand-bg text-slate-50 antialiased flex flex-col min-h-screen selection:bg-brand-primary selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="glass-card sticky top-0 z-50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 md:h-20 items-center">
+                
+                <!-- Logo (Left) -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{% url 'home' %}" class="text-2xl font-bold text-white flex items-center gap-2 group">
+                        <div class="p-1.5 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary group-hover:shadow-[0_0_15px_rgba(124,58,237,0.5)] transition-all duration-300">
+                            <i data-lucide="scan-face" class="w-6 h-6 text-white"></i>
+                        </div>
+                        ATSify
+                    </a>
+                </div>
+
+                <!-- Nav Links (Center Desktop) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="{% url 'about' %}" class="text-slate-300 hover:text-white font-medium transition-colors hover:shadow-[0_0_10px_rgba(255,255,255,0.3)]">About</a>
+                    <a href="{% url 'contact' %}" class="text-slate-300 hover:text-white font-medium transition-colors hover:shadow-[0_0_10px_rgba(255,255,255,0.3)]">Contact</a>
+                </div>
+
+                <!-- CTA Button (Right Desktop) -->
+                <div class="hidden md:flex items-center space-x-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="text-slate-300 hover:text-white font-medium px-3 py-2 transition-colors">Dashboard</a>
+                        <a href="{% url 'profile' %}" class="text-slate-300 hover:text-white font-medium px-3 py-2 transition-colors">Profile</a>
+                        <a href="{% url 'logout' %}" class="relative inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white transition-all duration-200 bg-transparent border border-white/20 rounded-full hover:bg-white/5 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary focus:ring-offset-brand-bg">Log Out</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-slate-300 hover:text-white font-medium px-3 py-2 transition-colors">Log In</a>
+                        <a href="{% url 'register' %}" class="relative inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white transition-all duration-200 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full hover:shadow-[0_0_20px_rgba(124,58,237,0.5)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary focus:ring-offset-brand-bg">Get Started <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card absolute w-full left-0 border-t border-white/5">
+            <div class="px-4 pt-4 pb-6 space-y-4">
+                <a href="{% url 'home' %}" class="block text-slate-300 font-medium text-lg hover:text-white">Home</a>
+                <a href="{% url 'about' %}" class="block text-slate-300 font-medium text-lg hover:text-white">About</a>
+                <a href="{% url 'contact' %}" class="block text-slate-300 font-medium text-lg hover:text-white">Contact</a>
+                <div class="border-t border-white/10 pt-4 mt-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="block w-full text-center text-slate-300 font-medium text-lg hover:text-white py-2 mb-2">Dashboard</a>
+                        <a href="{% url 'profile' %}" class="block w-full text-center text-slate-300 font-medium text-lg hover:text-white py-2 mb-2">Profile</a>
+                        <a href="{% url 'logout' %}" class="block w-full text-center border border-white/20 text-white font-medium rounded-xl py-3 hover:bg-white/5">Log Out</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="block text-slate-300 font-medium text-lg hover:text-white mb-4">Log In</a>
+                        <a href="{% url 'register' %}" class="block w-full text-center bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold rounded-xl py-3 hover:shadow-[0_0_15px_rgba(124,58,237,0.4)]">Get Started</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col relative overflow-hidden">
+        <!-- Background Ambient Glow -->
+        <div class="absolute top-0 inset-x-0 h-96 bg-hero-glow pointer-events-none -z-10"></div>
+        
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 z-10 relative">
+                {% for message in messages %}
+                    <div class="p-4 rounded-xl text-sm font-medium backdrop-blur-md border {% if message.tags == 'success' %}bg-brand-success/10 text-brand-success border-brand-success/20{% else %}bg-brand-error/10 text-brand-error border-brand-error/20{% endif %} flex items-center">
+                        <i data-lucide="info" class="w-5 h-5 mr-2"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-brand-surface/30 backdrop-blur-sm mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <a href="{% url 'home' %}" class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+                        <div class="p-1.5 rounded-lg bg-gradient-to-br from-brand-primary to-brand-secondary">
+                            <i data-lucide="scan-face" class="w-5 h-5 text-white"></i>
+                        </div>
+                        ATSify
+                    </a>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        AI-powered resume optimization platform built for the modern professional.
+                    </p>
+                </div>
+                <!-- Links -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 uppercase text-xs tracking-widest">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">Features</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-4 uppercase text-xs tracking-widest">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'about' %}" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">About Us</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-white hover:text-brand-primary text-sm transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-4 uppercase text-xs tracking-widest">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                            <span class="sr-only">Twitter</span>
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                            <span class="sr-only">GitHub</span>
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+                            <span class="sr-only">LinkedIn</span>
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-sm">
+                    &copy; 2026 ATSify. All rights reserved.
+                </p>
+                <div class="flex items-center space-x-2 text-xs text-slate-500">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-success opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-success"></span>
+                    </span>
+                    Systems Operational
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons and Mobile Menu -->
+    <script>
+        lucide.createIcons();
+        
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

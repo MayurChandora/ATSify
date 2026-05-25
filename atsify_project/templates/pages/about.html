@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - ATSify{% endblock %}
+
+{% block content %}
+<section class="py-16 md:py-24 relative z-10 min-h-[60vh]">
+    <!-- Ambient Background Glow -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-primary/10 border border-brand-primary/30 mx-auto mb-6 shadow-[0_0_20px_rgba(124,58,237,0.2)]">
+                <i data-lucide="scan-face" class="w-8 h-8 text-brand-primary"></i>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight font-inter">About ATSify</h1>
+            <p class="text-lg text-slate-400 font-mono tracking-widest uppercase">Empowering job seekers to beat the algorithms.</p>
+        </div>
+
+        <div class="glass-card p-10 md:p-12 rounded-2xl shadow-2xl border border-white/5 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            
+            <div class="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed relative z-10">
+                <p class="mb-6">
+                    Applying for jobs today can feel like shouting into the void. You spend hours tailoring your resume, only for it to be instantly rejected by an Applicant Tracking System (ATS) before a human ever sees it.
+                </p>
+                <p class="mb-6">
+                    <strong class="text-white">ATSify</strong> was built to solve exactly this problem. We are dedicated to providing fresh graduates, junior developers, and career switchers with the tools they need to optimize their resumes for ATS algorithms.
+                </p>
+                <p class="mb-8">
+                    By leveraging advanced AI capabilities through the <span class="text-brand-primary font-mono text-sm px-2 py-0.5 bg-brand-primary/10 border border-brand-primary/20 rounded">Groq API</span> and <span class="text-brand-secondary font-mono text-sm px-2 py-0.5 bg-brand-secondary/10 border border-brand-secondary/20 rounded">LLaMA 3</span> models, ATSify analyzes your resume against any job description in seconds. We give you a clear match score, highlight crucial missing keywords, and provide actionable suggestions to improve your chances of securing that initial interview.
+                </p>
+                
+                <div class="bg-brand-surface/50 border-l-4 border-brand-primary p-6 md:p-8 rounded-r-2xl mt-12 mb-10 shadow-inner border-y border-r border-white/5 backdrop-blur-md relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-brand-primary/10 rounded-full blur-2xl"></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 mt-0 flex items-center tracking-tight">
+                        <i data-lucide="rocket" class="w-6 h-6 mr-3 text-brand-primary"></i> Our Mission
+                    </h3>
+                    <p class="m-0 text-slate-300">
+                        To democratize the job application process by making ATS optimization accessible, fast, and highly accurate for everyone.
+                    </p>
+                </div>
+                
+                <p>
+                    Whether you're applying for your first internship or transitioning into a new career path, ATSify is here to ensure your resume gets the attention it deserves.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
